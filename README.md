@@ -28,3 +28,7 @@ cd Apollo
 docker build -t apollo-forecast-app .
 docker run -p 9651:9651 apollo-forecast-app
 ```
+📌 Disclaimer
+- This project is for educational and research use only.
+No part of this code is financial advice or a trading recommendation.
+Do your own due diligence!
