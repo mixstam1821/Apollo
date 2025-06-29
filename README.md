@@ -19,3 +19,12 @@ Clone or download the code, then install the requirements:
 pip install -r requirements.txt
 bokeh serve --show apollo.py
 ```
+
+OR
+
+```bash
+git clone https://github.com/mixstam1821/Apollo
+cd Apollo
+docker build -t apollo-forecast-app .
+docker run -p 9651:9651 apollo-forecast-app
+```
