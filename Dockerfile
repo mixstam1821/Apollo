@@ -12,7 +12,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the Bokeh app code
-COPY apollo.py .
+COPY Apollo.py .
 
 # Expose default Bokeh port
 EXPOSE 9651
