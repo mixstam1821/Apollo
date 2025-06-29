@@ -1,6 +1,6 @@
 # Apollo: Forecasts for Stocks, Crypto, & Forex
 
-Apollo is an interactive web app (built with Bokeh & yfinance) for forecasting and scanning market trends across equities, ETFs, indices, commodities, forex, and crypto using robust SARIMAX models.
+Apollo is an interactive web app (built with Bokeh & yfinance) for forecasting and scanning market trends across equities, ETFs, indices, commodities, forex, and crypto using robust SARIMAX models for the next 5 days.
 
 ![Forecast App Screenshot](assets/Screenshot_20250629_043329.png)
 
