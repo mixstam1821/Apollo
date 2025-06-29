@@ -229,7 +229,7 @@ assets_div = Div(text="", width=800, height=250, styles = {'font-size': '16px',}
 
 plot = figure(title="Select a ticker and click 'Forecast' to begin", 
               x_axis_type='datetime', width=800, height=400, 
-              tools="hover,pan,wheel_zoom,box_zoom,reset,save", active_scroll='wheel_zoom',
+              tools="hover,pan,wheel_zoom,box_zoom,reset,save", 
               border_fill_color="#444444", background_fill_color="#444444",)
 empty_source = ColumnDataSource(data=dict(x=[], y=[]))
 plot.line('x', 'y', source=empty_source, alpha=0)
