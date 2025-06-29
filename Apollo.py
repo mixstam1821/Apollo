@@ -220,14 +220,14 @@ end_date_picker = DatePicker(title="End Date:",
 
 forecast_days_input = NumericInput(title="Forecast Days:", value=5, low=1, high=30, width=120, stylesheets = [style2])
 
-forecast_button = Button(label="Forecast & Indicators", button_type="primary", width=200, stylesheets = [button_style])
+forecast_button = Button(label="Forecast", button_type="primary", width=200, stylesheets = [button_style])
 find_assets_button = Button(label="🔍 Find Reliable Assets", button_type="success", width=200, stylesheets = [button_style])
 
 status_div = Div(text="", width=800, height=30)
 results_div = Div(text="", width=800, height=100, styles = {'font-size': '16px',})
 assets_div = Div(text="", width=800, height=250, styles = {'font-size': '16px',})
 
-plot = figure(title="Select a ticker and click 'Forecast & Indicators' to begin", 
+plot = figure(title="Select a ticker and click 'Forecast' to begin", 
               x_axis_type='datetime', width=800, height=400, 
               tools="hover,pan,wheel_zoom,box_zoom,reset,save", active_scroll='wheel_zoom',
               border_fill_color="#444444", background_fill_color="#444444",)
