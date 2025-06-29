@@ -18,4 +18,4 @@ COPY Apollo.py .
 EXPOSE 9651
 
 # Run Bokeh server on container start
-CMD ["bokeh", "serve", "apollo.py", "--allow-websocket-origin=*", "--port=9651", "--address=0.0.0.0"]
+CMD ["bokeh", "serve", "Apollo.py", "--allow-websocket-origin=*", "--port=9651", "--address=0.0.0.0"]
