@@ -344,7 +344,8 @@ def update_forecast():
         x_idx = np.arange(1, days + 1)
         slope, intercept, r_value, p_value, std_err = linregress(x_idx, forecast_prices)
         trend_line = intercept + slope * x_idx
-        trend_source = ColumnDataSource(data=dict(x=forecast_dates, y=trend_line))
+        trend_source = ColumnDataSource(data=dict(x=[forecast_dates[0],forecast_dates[-1]], y=[trend_line[0],trend_line[-1]]))
+
         plot.line('x', 'y', source=trend_source, color = 'deepskyblue', line_width=6, legend_label="Trend Line")
         trend_msg = "SIGNIFICANT" if p_value < 0.05 else "NOT SIGNIFICANT"
         metrics = predictor.evaluate_model(data)
