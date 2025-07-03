@@ -75,12 +75,12 @@ FRIENDLY_TO_YAHOO = {
     # International MegaCaps/ADRs
     "samsung": "005930.KS", "sony": "SONY", "toyota": "TM", "honda": "HMC",
     "volkswagen": "VWAGY", "bayer": "BAYRY", "siemens": "SIEGY", "novartis": "NVS",
-    "nestle": "NSRGY", "unilever": "UL", "shell": "SHEL", "astra zeneca": "AZN",
+    "nestle": "NSRGY", "unilever": "UL",  "astra zeneca": "AZN",
     "baidu": "BIDU", "tencent": "TCEHY", "shopify": "SHOP", "infosys": "INFY",
     "biontech": "BNTX", "ping an": "PNGAY",
     # Others
     "amgen": "AMGN", "moderna": "MRNA", "roche": "RHHBY", "glaxosmithkline": "GSK",
-    "sanofi": "SNY", "prudential": "PRU", "manulife": "MFC",
+    "sanofi": "SNY", "prudential": "PRU", "manulife": "MFC","xauusd": "STOOQ_XAUUSD"
 }
 
 # Auto-generated dropdown for your app:
@@ -88,6 +88,39 @@ TICKER_OPTIONS = sorted([
     (k.replace("_", " ").title(), k) for k in FRIENDLY_TO_YAHOO.keys()
 ])
 
+def fetch_stooq_xauusd(lookback_years=2):
+    import pandas as pd
+    import requests
+    from io import StringIO
+    from datetime import datetime, timedelta
+
+    symbol = "XAUUSD"
+    url = f"https://stooq.com/q/d/l/?s={symbol.lower()}&i=d"  # daily bars
+    try:
+        response = requests.get(url, timeout=10)
+        if response.status_code != 200:
+            print(f"Stooq fetch error: {response.status_code}")
+            return None
+        csv_data = StringIO(response.text)
+        df = pd.read_csv(csv_data)
+        # stooq uses 'Date','Open','High','Low','Close'
+        df.columns = [c.lower() for c in df.columns]
+        df['date'] = pd.to_datetime(df['date'])
+        # Filter lookback
+        min_date = datetime.now() - timedelta(days=lookback_years * 365)
+        df = df[df['date'] >= min_date]
+        # Add dummy 'volume' if missing
+        if 'volume' not in df.columns:
+            df['volume'] = float('nan')
+        required_cols = ['date', 'close', 'open', 'high', 'low', 'volume']
+        for col in required_cols:
+            if col not in df.columns:
+                print(f"❌ XAUUSD: missing column {col}")
+                return None
+        return df[required_cols]
+    except Exception as e:
+        print(f"Stooq XAUUSD fetch error: {e}")
+        return None
 
 
 
@@ -103,11 +136,14 @@ def resolve_symbol(user_input):
     return yahoo
 
 
-
 class ForexDataFetcher:
     def __init__(self, symbol):
         self.symbol = symbol.upper()
     def get_historical_data(self, lookback_years=2):
+        # Stooq XAUUSD special case:
+        if self.symbol == "STOOQ_XAUUSD":
+            return fetch_stooq_xauusd(lookback_years=lookback_years)
+
         end_date = datetime.now()
         start_date = end_date - timedelta(days=365 * lookback_years)
         try:
@@ -138,7 +174,6 @@ class ForexDataFetcher:
         except Exception as e:
             print(f"Yahoo Finance fetch error: {e}")
             return None
-
 
 class ForexSARIMAPredictor:
     def __init__(self, order=(1, 1, 1), seasonal_order=(1, 1, 1, 5)):
